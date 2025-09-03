@@ -5,10 +5,12 @@ import java.util.UUID;
 
 import org.apache.logging.log4j.util.InternalException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.shop.application.Entity.Customer;
 import com.shop.application.Entity.Orders;
+import com.shop.application.Exception.EntityNotFoundException;
 import com.shop.application.Repository.CustomerRepository;
 import com.shop.application.Repository.OrdersRepository;
 
@@ -34,7 +36,7 @@ public class OrdersService {
 
     public Orders findOrdersById(String orderId){
         return ordersRepository.findById(UUID.fromString(orderId)).orElseThrow(
-            () -> new InternalException("Order with id not found")
+            () -> new EntityNotFoundException(HttpStatus.NOT_FOUND,"Order with id not found")
         );
     }
 
@@ -58,7 +60,7 @@ public class OrdersService {
             
         }
         else{
-            throw new InternalException("Customer is empty");
+            throw new EntityNotFoundException(HttpStatus.NOT_FOUND,"Customer is empty");
         }
     }
 

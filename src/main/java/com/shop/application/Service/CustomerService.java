@@ -3,11 +3,12 @@ package com.shop.application.Service;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.logging.log4j.util.InternalException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.shop.application.Entity.Customer;
+import com.shop.application.Exception.EntityNotFoundException;
 import com.shop.application.Repository.CustomerRepository;
 
 
@@ -23,7 +24,7 @@ public class CustomerService {
 
     public Customer findCustomerById(String customerId){
         return customerRepository.findById(UUID.fromString(customerId)).orElseThrow(
-            ()-> new InternalException("Customer not present")
+            ()-> new EntityNotFoundException(HttpStatus.NOT_FOUND,"Customer not present")
         );
     }
 
